@@ -1,0 +1,23 @@
+{
+  "name": "bartlett",
+  "version": "0.0.0",
+  "description": "A functional recursive descent parsing library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pandastrike/bartlett"
+  },
+  "keywords": [
+    "parser",
+    "recursive-descent"
+  ],
+  "author": "Dan Yoder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pandastrike/bartlett/issues"
+  },
+  "homepage": "https://github.com/pandastrike/bartlett"
+}
