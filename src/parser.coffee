@@ -1,19 +1,21 @@
+r = (match, rest) -> {match, rest}
+
 o = 
 
   # tokenizers...
 
   regexp: (re) ->
     (s) ->
-      if [m] = s.match(re)
-        [m, s[m.length..]]
+      if m = s.match(re)
+        r(m[1], s[m[0].length..])
       else
         null
 
-  ws_word: (t) ->
-    o.regexp(/^\s*#{t}\s*/)
-
   word: (t) ->
-    o.regexp(/^#{t}/)
+    o.regexp(///^(#{t})///)
+
+  whitespace_delimited_word: (t) ->
+    o.regexp(///^\s*(#{t})\s*///)
 
 
   # atomic operators...
@@ -24,40 +26,100 @@ o =
 
   # generator operators...
 
-  optional:
+  optional: (p) ->
 
-  not:
+  not: (p) ->
 
-  ignore:
+  ignore: (p) ->
 
-  product:
+  product: (p) ->
 
-  cache:
+  cache: (p) ->
 
   # vector operations
 
-  any:
+  any: (px...) ->
+    (s) ->
+      for p in px
+        _r = p(s)
+        (return _r) if _r?
+      null
 
-  each:
+  each: (px...) ->
+    (s) ->
+      matches = []
+      for p in px
+        _r = p(s)
+        if _r?
+          s = _r.rest
+          matches.push _r.match
+        else
+          return null
+      r(matches, s)
 
-  all:
+  # match patterns in any order
+  set: (px...) ->
+    empty = (a) -> a.length is 0
+    (s) ->
+      # make a copy of the array
+      px2 = (p for p in px)
+      # keep track of matches
+      matches = []
+
+      # we're going to loop until all
+      # the patterns have matched or
+      # there's nothing to match against
+      while not(empty(px2) or s is "")
+        # keep a list of unmatched patterns
+        px3 = []
+        # for each pattern...
+        for p in px2
+          # attempt a match
+          _r = p(s)
+          # if it matches, save the match, update
+          # the string, and keep going...
+          if _r?
+            matches.push _r.match
+            s = _r.rest
+          
+          # if it does NOT match, add the current
+          # pattern to the list of unmatched  
+          else
+            px3.push p
+
+        # if the pattern list and the unmatched
+        # pattern are the same, there are no more
+        # matches, so set the list to match
+        # against to the empty array...
+        if px3.length is px2.length
+          px2 = []
+        # otherwise, use the unmatched list as the
+        # new set of patterns and try again...
+        else
+          px2 = px3
+          
+      if empty(matches)
+        null
+      else
+        r(matches, s)
+            
 
   # delimited operators
 
-  sequence:
+  sequence: (p) ->
 
   # composite operators
 
-  between:
+  between: (p) ->
 
-  list:
+  list: (p) ->
 
-  forward: 
-
-    
+  forward:  (p) ->
 
   
-
+module.exports =
+  operators: o
+  make_result: r
   
 
 
