@@ -1,18 +1,16 @@
 {
   "name": "bartlett",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha-01",
   "description": "A functional recursive descent parsing library",
   "main": "src/parser.coffee",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/pandastrike/bartlett"
   },
   "keywords": [
     "parser",
-    "recursive-descent"
+    "recursive",
+    "descent"
   ],
   "author": "Dan Yoder",
   "license": "MIT",
