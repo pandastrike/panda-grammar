@@ -45,6 +45,8 @@ many = (p) ->
       s = match.rest
     {value: r, rest: s} if r.length > 0
 
+forward = (fn) -> (s) -> fn()(s)
+
 rule = (p, a) ->
   (s) ->
     match = p(s)

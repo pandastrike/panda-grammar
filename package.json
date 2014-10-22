@@ -1,6 +1,6 @@
 {
   "name": "bartlett",
-  "version": "1.0.0-alpha-01",
+  "version": "1.0.0-alpha-02",
   "description": "A functional recursive descent parsing library",
   "main": "src/parser.coffee",
   "repository": {
