@@ -1,4 +1,3 @@
-bartlett
-========
+# Panda Grammar
 
-A functional recursive descent parser library in CoffeeScript
+Coming soon!

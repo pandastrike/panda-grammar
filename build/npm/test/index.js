@@ -36,7 +36,7 @@ sdelim = (0, _index.word)(":");
 
 root = (0, _index.word)("//");
 
-scheme = (0, _index.rule)((0, _index.all)((0, _index.any)(http, https), sdelim), function ({
+scheme = (0, _index.rule)((0, _index.all)((0, _index.any)(https, http), sdelim), function ({
   value: [protocol]
 }) {
   return { protocol };
@@ -76,39 +76,61 @@ url = (0, _index.rule)((0, _index.all)(scheme, path, (0, _index.optional)(query)
 parseURL = (0, _index.grammar)(url);
 
 _asyncToGenerator(function* () {
-  return (0, _amen.print)((yield (0, _amen.test)("URL Parser", [(0, _amen.test)("http://foo", function () {
-    var _rec = new _powerAssertRecorder(),
-        _rec2 = new _powerAssertRecorder();
+  var testBadURL, testURL;
+  testURL = function (url, expected) {
+    return (0, _amen.test)(url, function () {
+      var _rec = new _powerAssertRecorder(),
+          _rec2 = new _powerAssertRecorder();
 
-    return _powerAssert2.default.deepEqual(_rec._expr(_rec._capt({
-      protocol: "http",
-      path: "/foo",
-      components: _rec._capt(["foo"], "arguments/0/properties/2/value")
-    }, "arguments/0"), {
-      content: "assert.deepEqual({ protocol: \"http\", path: \"/foo\", components: [\"foo\"] }, parseURL(\"http://foo\"))",
-      filepath: "index.coffee",
-      line: 44
-    }), _rec2._expr(_rec2._capt(parseURL("http://foo"), "arguments/1"), {
-      content: "assert.deepEqual({ protocol: \"http\", path: \"/foo\", components: [\"foo\"] }, parseURL(\"http://foo\"))",
-      filepath: "index.coffee",
-      line: 44
-    }));
-  }), (0, _amen.test)("https://foo/bar", function () {
-    var _rec3 = new _powerAssertRecorder(),
-        _rec4 = new _powerAssertRecorder();
+      return _powerAssert2.default.deepEqual(_rec._expr(_rec._capt(expected, "arguments/0"), {
+        content: "assert.deepEqual(expected, parseURL(url))",
+        filepath: "index.coffee",
+        line: 45
+      }), _rec2._expr(_rec2._capt(parseURL(_rec2._capt(url, "arguments/1/arguments/0")), "arguments/1"), {
+        content: "assert.deepEqual(expected, parseURL(url))",
+        filepath: "index.coffee",
+        line: 45
+      }));
+    });
+  };
+  testBadURL = function (url, expected) {
+    return (0, _amen.test)(`Bad URL: ${url}`, function () {
+      var _rec3 = new _powerAssertRecorder(),
+          _rec4 = new _powerAssertRecorder();
 
-    return _powerAssert2.default.deepEqual(_rec3._expr(_rec3._capt({
-      protocol: "https",
-      path: "/foo/bar",
-      components: _rec3._capt(["foo", "bar"], "arguments/0/properties/2/value")
-    }, "arguments/0"), {
-      content: "assert.deepEqual({ protocol: \"https\", path: \"/foo/bar\", components: [\"foo\", \"bar\"] }, parseURL(\"https://foo/bar\"))",
-      filepath: "index.coffee",
-      line: 52
-    }), _rec4._expr(_rec4._capt(parseURL("https://foo/bar"), "arguments/1"), {
-      content: "assert.deepEqual({ protocol: \"https\", path: \"/foo/bar\", components: [\"foo\", \"bar\"] }, parseURL(\"https://foo/bar\"))",
-      filepath: "index.coffee",
-      line: 52
-    }));
-  })])));
+      return _powerAssert2.default.equal(_rec3._expr(_rec3._capt(void 0, "arguments/0"), {
+        content: "assert.equal(void 0, parseURL(url))",
+        filepath: "index.coffee",
+        line: 49
+      }), _rec4._expr(_rec4._capt(parseURL(_rec4._capt(url, "arguments/1/arguments/0")), "arguments/1"), {
+        content: "assert.equal(void 0, parseURL(url))",
+        filepath: "index.coffee",
+        line: 49
+      }));
+    });
+  };
+  return (0, _amen.print)((yield (0, _amen.test)("URL Parser", [testURL("http://foo", {
+    protocol: "http",
+    path: "/foo",
+    components: ["foo"]
+  }), testURL("https://foo/bar", {
+    protocol: "https",
+    path: "/foo/bar",
+    components: ["foo", "bar"]
+  }), testURL("https://foo/bar?baz=123", {
+    protocol: "https",
+    path: "/foo/bar",
+    components: ["foo", "bar"],
+    query: {
+      baz: "123"
+    }
+  }), testURL("https://foo/bar?baz=123&fizz=buzz", {
+    protocol: "https",
+    path: "/foo/bar",
+    components: ["foo", "bar"],
+    query: {
+      baz: "123",
+      fizz: "buzz"
+    }
+  }), testBadURL("htp://foo/bar?baz=123"), testBadURL("http:/foo/bar?baz=123"), testBadURL("http://foo:bar?baz=123"), testBadURL("http://foo/bar,baz=123"), testBadURL("http://foo/bar?baz=123?fizz=buzz"), testBadURL("http://foo/bar?baz=123&fizz-buzz"), testBadURL("http://foo/bar?baz=123&fizz/buzz")])));
 })();

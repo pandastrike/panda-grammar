@@ -17,7 +17,7 @@ https = word "https"
 sdelim = word ":"
 root = word "//"
 
-scheme = rule (all (any http, https), sdelim),
+scheme = rule (all (any https, http), sdelim),
   ({value: [protocol]}) -> {protocol}
 
 path = rule (all root, list separator, symbol),
@@ -39,21 +39,44 @@ parseURL = grammar url
 
 
 do ->
+
+  testURL = (url, expected) ->
+    test url, ->
+      assert.deepEqual expected, parseURL url
+
+  testBadURL = (url, expected) ->
+    test "Bad URL: #{url}", ->
+      assert.equal undefined, parseURL url
+
   print await test "URL Parser", [
-    test "http://foo", ->
-      assert.deepEqual
-        protocol: "http"
-        path: "/foo"
-        components: [ "foo" ]
-      ,
-        parseURL "http://foo"
 
-    test "https://foo/bar", ->
-      assert.deepEqual
-        protocol: "https"
-        path: "/foo/bar"
-        components: [ "foo", "bar" ]
-      ,
-        parseURL "https://foo/bar"
+    testURL "http://foo",
+      protocol: "http"
+      path: "/foo"
+      components: [ "foo" ]
 
+    testURL "https://foo/bar",
+      protocol: "https"
+      path: "/foo/bar"
+      components: [ "foo", "bar" ]
+
+    testURL "https://foo/bar?baz=123",
+      protocol: "https"
+      path: "/foo/bar"
+      components: [ "foo", "bar" ]
+      query: baz: "123"
+
+    testURL "https://foo/bar?baz=123&fizz=buzz",
+      protocol: "https"
+      path: "/foo/bar"
+      components: [ "foo", "bar" ]
+      query: baz: "123", fizz: "buzz"
+
+    testBadURL "htp://foo/bar?baz=123"
+    testBadURL "http:/foo/bar?baz=123"
+    testBadURL "http://foo:bar?baz=123"
+    testBadURL "http://foo/bar,baz=123"
+    testBadURL "http://foo/bar?baz=123?fizz=buzz"
+    testBadURL "http://foo/bar?baz=123&fizz-buzz"
+    testBadURL "http://foo/bar?baz=123&fizz/buzz"
   ]
