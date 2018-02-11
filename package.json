@@ -1,21 +1,30 @@
 {
-  "name": "bartlett",
-  "version": "1.0.0-alpha-02",
-  "description": "A functional recursive descent parsing library",
-  "main": "src/parser.coffee",
+  "name": "panda-grammar",
+  "version": "1.0.0",
+  "description": "Recursive descent parser combinators in JavaScript",
+  "main": "build/npm/src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pandastrike/bartlett"
+    "url": "https://github.com/pandastrike/panda-grammar"
+  },
+  "scripts": {
+    "test": "gulp npm:test"
   },
   "keywords": [
     "parser",
+    "combinator",
     "recursive",
     "descent"
   ],
   "author": "Dan Yoder",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pandastrike/bartlett/issues"
+    "url": "https://github.com/pandastrike/panda-grammar/issues"
   },
-  "homepage": "https://github.com/pandastrike/bartlett"
+  "homepage": "https://github.com/pandastrike/panda-grammar",
+  "devDependencies": {
+    "amen": "^2.0.4",
+    "panda-builder": "^1.1.1",
+    "power-assert": "^1.4.4"
+  }
 }
