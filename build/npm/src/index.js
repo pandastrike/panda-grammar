@@ -1,7 +1,7 @@
 "use strict";
 
 (function () {
-  var all, any, escape, forward, grammar, list, many, match, optional, re, rule, string, ws;
+  var all, any, between, escape, forward, grammar, join, list, many, match, merge, optional, re, rule, string, tag, word, ws;
 
   match = function (re, s) {
     return s.match(re);
@@ -13,20 +13,22 @@
 
   re = function (re) {
     return function (s) {
-      var m, rest, value;
-      if ((m = match(re, s)) != null) {
-        [value] = m;
-        rest = s.slice(m.index + value.length);
+      var $m, rest, value;
+      if (($m = match(re, s)) != null) {
+        [value] = $m;
+        rest = s.slice($m.index + value.length);
         return { value, rest };
       }
     };
   };
 
+  word = re(/^\w+/);
+
+  ws = re(/^\s+/);
+
   string = function (s) {
     return re(RegExp(`^${escape(s)}`));
   };
-
-  ws = re(/^(\s*)/);
 
   any = function (...px) {
     return function (s) {
@@ -111,6 +113,14 @@
     };
   };
 
+  between = function ([open, close], p) {
+    return rule(all(string(open), p, string(close)), function ({
+      value: [, v]
+    }) {
+      return v;
+    });
+  };
+
   forward = function (fn) {
     return function (s) {
       return fn()(s);
@@ -130,6 +140,26 @@
     };
   };
 
+  tag = function (name, p) {
+    return rule(p, function ({ value }) {
+      return {
+        [name]: value
+      };
+    });
+  };
+
+  merge = function (p) {
+    return rule(p, function ({ value }) {
+      return Object.assign({}, ...value);
+    });
+  };
+
+  join = function (p) {
+    return rule(p, function ({ value }) {
+      return value.join("");
+    });
+  };
+
   grammar = function (r) {
     return function (s) {
       var $m, rest, value;
@@ -143,5 +173,5 @@
     };
   };
 
-  module.exports = { re, string, ws, any, optional, all, many, list, rule, grammar };
+  module.exports = { re, string, word, ws, any, optional, forward, all, many, list, between, rule, tag, merge, join, grammar };
 }).call(undefined);

@@ -1,6 +1,6 @@
 {
   "name": "panda-grammar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Recursive descent parser combinators in JavaScript",
   "main": "build/npm/src/index.js",
   "repository": {

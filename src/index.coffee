@@ -1,16 +1,19 @@
 match = (re, s) -> s.match re
+
 escape = (s) -> s.replace /[.*+?^${}()|[\]\\]/g, "\\$&"
 
 re = (re) ->
   (s) ->
-    if (m = (match re, s))?
-      [value] = m
-      rest = s[(m.index + value.length)..]
+    if ($m = (match re, s))?
+      [value] = $m
+      rest = s[($m.index + value.length)..]
       {value, rest}
 
-string = (s) -> re ///^#{escape s}///
+word = re /^\w+/
 
-ws = re /^(\s*)/
+ws = re /^\s+/
+
+string = (s) -> re ///^#{escape s}///
 
 any = (px...) ->
   (s) ->
@@ -54,6 +57,10 @@ list = (d, p) ->
       else
         return null
 
+between = ([open, close], p) ->
+  rule (all (string open), p, (string close)),
+    ({value: [,v]}) -> v
+
 forward = (fn) -> (s) -> fn()(s)
 
 rule = (p, a) ->
@@ -61,6 +68,12 @@ rule = (p, a) ->
     $m = p s
     if $m?
       {value: a($m), rest: $m.rest}
+
+tag = (name, p) -> rule p, ({value}) -> [name]: value
+
+merge = (p) -> rule p, ({value}) -> Object.assign {}, value...
+
+join = (p) -> rule p, ({value}) -> value.join ""
 
 grammar = (r) ->
   (s) ->
@@ -70,4 +83,7 @@ grammar = (r) ->
       if rest == ""
         value
 
-module.exports = {re, string, ws, any, optional, all, many, list, rule, grammar}
+module.exports = {re, string, word, ws, any, optional, forward,
+  all, many, list, between,
+  rule, tag, merge, join,
+  grammar}
