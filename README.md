@@ -113,7 +113,7 @@ A _consumer_ is a function that takes a string as input and returns a product or
 
 A _combinator_ is a function that takes consumers as arguments and returns another consumer.
 
-### re
+### `re`
 
 Takes a regular expression and returns a consumer that matches that regular expression.
 
@@ -121,11 +121,12 @@ Takes a regular expression and returns a consumer that matches that regular expr
 protocol = re /^https?/
 ```
 
-#### Warning
+> **Warning**
+>
+> Typically, you want to anchor the expression at the beginning of the input with `^`. Unanchored regular expressions are useful for lookahead.
+>
 
-Typically, you want to anchor the expression at the beginning of the input with `^`. Unanchored regular expressions are useful for lookahead.
-
-### string
+### `string`
 
 Takes a string and returns a consumer that matches it.
 
@@ -133,11 +134,11 @@ Takes a string and returns a consumer that matches it.
 root = string "//"
 ```
 
-### ws
+### `ws`
 
 Consumes whitespace as defined by the regular expression `\s`.
 
-### any
+### `any`
 
 Takes a list of consumers as arguments and returns a consumer that will return the product of the first match or null.
 
@@ -145,7 +146,7 @@ Takes a list of consumers as arguments and returns a consumer that will return t
 food = any (string "pizza"), (string "wings"), (string "burrito")
 ```
 
-### optional
+### `optional`
 
 Takes a consumer and returns a consumer that returns its product if it matches. Otherwise returns a product where `rest` is the input string.
 
@@ -153,7 +154,7 @@ Takes a consumer and returns a consumer that returns its product if it matches. 
 url = all scheme, path, (optional query)
 ```
 
-### all
+### `all`
 
 Takes a list of consumers as arguments and returns a consumer that matches each in the order given.
 
@@ -161,7 +162,7 @@ Takes a list of consumers as arguments and returns a consumer that matches each 
 url = all scheme, path, (optional query)
 ```
 
-### many
+### `many`
 
 Takes a consumer and matches against it as many times as possible.
 
@@ -169,7 +170,7 @@ Takes a consumer and matches against it as many times as possible.
 program = many expressions
 ```
 
-### list
+### `list`
 
 Takes two consumers, a delimiter and an item, and attempts to match items separated by delimiters.
 
@@ -177,7 +178,7 @@ Takes two consumers, a delimiter and an item, and attempts to match items separa
 query = all qdelim, list cdelim, assignment
 ```
 
-### forward
+### `forward`
 
 Takes a function that returns a consumer and returns a second consumer that delegates to it. Useful for referencing consumers that haven't been defined yet but exist within the closure of the function.
 
@@ -185,7 +186,7 @@ Takes a function that returns a consumer and returns a second consumer that dele
 program = many (forward -> expressions)
 ```
 
-### rule
+### `rule`
 
 Takes a consumer and a function that accepts a product and returns a value and returns a consumer that passes the given consumer's product to the given function. Useful for transforming the value of the product.
 
@@ -195,7 +196,7 @@ assignment = rule all variable equals expression, (product) ->
   variables[variable] = evaluate expression
 ```  
 
-### grammar
+### `grammar`
 
 Takes a consumer and returns it's value if `rest` is empty.
 
