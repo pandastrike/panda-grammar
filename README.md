@@ -117,6 +117,10 @@ A _combinator_ is a function that takes consumers as arguments and returns anoth
 
 Takes a regular expression and returns a consumer that matches that regular expression.
 
+```coffee
+protocol = re /^https?/
+```
+
 #### Warning
 
 Typically, you want to anchor the expression at the beginning of the input with `^`. Unanchored regular expressions are useful for lookahead.
@@ -124,6 +128,10 @@ Typically, you want to anchor the expression at the beginning of the input with 
 ### string
 
 Takes a string and returns a consumer that matches it.
+
+```coffee
+root = string "//"
+```
 
 ### ws
 
@@ -133,30 +141,70 @@ Consumes whitespace as defined by the regular expression `\s`.
 
 Takes a list of consumers as arguments and returns a consumer that will return the product of the first match or null.
 
+```
+food = any (string "pizza"), (string "wings"), (string "burrito")
+```
+
 ### optional
 
 Takes a consumer and returns a consumer that returns its product if it matches. Otherwise returns a product where `rest` is the input string.
+
+```coffee
+url = all scheme, path, (optional query)
+```
 
 ### all
 
 Takes a list of consumers as arguments and returns a consumer that matches each in the order given.
 
+```coffee
+url = all scheme, path, (optional query)
+```
+
 ### many
 
 Takes a consumer and matches against it as many times as possible.
+
+```coffee
+program = many expressions
+```
 
 ### list
 
 Takes two consumers, a delimiter and an item, and attempts to match items separated by delimiters.
 
+```coffee
+query = all qdelim, list cdelim, assignment
+```
+
 ### forward
 
 Takes a function that returns a consumer and returns a second consumer that delegates to it. Useful for referencing consumers that haven't been defined yet but exist within the closure of the function.
+
+```coffee
+program = many (forward -> expressions)
+```
 
 ### rule
 
 Takes a consumer and a function that accepts a product and returns a value and returns a consumer that passes the given consumer's product to the given function. Useful for transforming the value of the product.
 
+```coffee
+assignment = rule all variable equals expression, (product) ->
+  {value: [variable, expression]} = product
+  variables[variable] = evaluate expression
+```  
+
 ### grammar
 
 Takes a consumer and returns it's value if `rest` is empty.
+
+```coffee
+parseURL = grammar url
+assert.deepEqual (parseURL "https://foo/bar?baz=123"),
+  protocol: "https"
+  path: "/foo/bar"
+  components: [ "foo", "bar" ]
+  query:
+    baz: "123"
+```
