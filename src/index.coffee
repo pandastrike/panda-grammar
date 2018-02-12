@@ -57,9 +57,8 @@ list = (d, p) ->
       else
         return null
 
-between = ([open, close], p) ->
-  rule (all (string open), p, (string close)),
-    ({value: [,v]}) -> v
+between = (open, close, p) ->
+  rule (all open, p, close), ({value: [,v]}) -> v
 
 forward = (fn) -> (s) -> fn()(s)
 

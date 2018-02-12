@@ -113,8 +113,8 @@
     };
   };
 
-  between = function ([open, close], p) {
-    return rule(all(string(open), p, string(close)), function ({
+  between = function (open, close, p) {
+    return rule(all(open, p, close), function ({
       value: [, v]
     }) {
       return v;

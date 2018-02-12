@@ -126,6 +126,14 @@ protocol = re /^https?/
 > Typically, you want to anchor the expression at the beginning of the input with `^`. Unanchored regular expressions are useful for lookahead.
 >
 
+### `word`
+
+Equivalent to `re /^\w+/`.
+
+### `ws`
+
+Equivalent to `re /^\s+/`.
+
 ### `string`
 
 Takes a string and returns a consumer that matches it.
@@ -133,10 +141,6 @@ Takes a string and returns a consumer that matches it.
 ```coffee
 root = string "//"
 ```
-
-### `ws`
-
-Consumes whitespace as defined by the regular expression `\s`.
 
 ### `any`
 
@@ -178,6 +182,14 @@ Takes two consumers, a delimiter and an item, and attempts to match items separa
 query = all qdelim, list cdelim, assignment
 ```
 
+### `between`
+
+Takes a delimiter-pair string and a consumer, and attempts to match the consumer between the delimiters.
+
+```coffee
+between (string "{"), (string "}"), expression
+```
+
 ### `forward`
 
 Takes a function that returns a consumer and returns a second consumer that delegates to it. Useful for referencing consumers that haven't been defined yet but exist within the closure of the function.
@@ -194,7 +206,23 @@ Takes a consumer and a function that accepts a product and returns a value and r
 assignment = rule all variable equals expression, (product) ->
   {value: [variable, expression]} = product
   variables[variable] = evaluate expression
-```  
+```
+
+### `tag`
+
+A rule that replaces the parsed value with an object with a property of the given name whose value is the parsed value.
+
+```coffee
+rule "variable", word
+```
+
+### `merge`
+
+Merges object values together.
+
+### `join`
+
+Joins an array of values (presumably strings) together.
 
 ### `grammar`
 
