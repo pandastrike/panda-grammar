@@ -1,29 +1,28 @@
 import assert from "assert"
 import {print, test} from "amen"
 
-import {re, word, any, optional,
+import {re, string, any, optional,
   list, all, many, rule, grammar} from "../src/index"
 
 # For now, our test case is simple URL parser, which
 # exercises all the functions except ws
 
-separator = word "/"
-symbol = re /^\w+/
-qdelim = word "?"
-cdelim = word "&"
-equal = word "="
-http = word "http"
-https = word "https"
-sdelim = word ":"
-root = word "//"
+separator = string "/"
+word = re /^\w+/
+qdelim = string "?"
+cdelim = string "&"
+equal = string "="
+protocol = re /^https?/
+sdelim = string ":"
+root = string "//"
 
-scheme = rule (all (any https, http), sdelim),
+scheme = rule (all protocol, sdelim),
   ({value: [protocol]}) -> {protocol}
 
-path = rule (all root, list separator, symbol),
+path = rule (all root, list separator, word),
   ({value: [, components]}) -> {components, path: "/" + (components.join "/")}
 
-assignment = rule (all symbol, equal, symbol),
+assignment = rule (all word, equal, word),
   ({value: [key, , value]}) -> [key, value]
 
 query = rule (all qdelim, list cdelim, assignment),

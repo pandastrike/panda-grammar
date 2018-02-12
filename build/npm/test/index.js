@@ -14,35 +14,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var assignment, cdelim, equal, http, https, parseURL, path, qdelim, query, root, scheme, sdelim, separator, symbol, url;
+var assignment, cdelim, equal, parseURL, path, protocol, qdelim, query, root, scheme, sdelim, separator, url, word;
 
 // For now, our test case is simple URL parser, which
 // exercises all the functions except ws
-separator = (0, _index.word)("/");
+separator = (0, _index.string)("/");
 
-symbol = (0, _index.re)(/^\w+/);
+word = (0, _index.re)(/^\w+/);
 
-qdelim = (0, _index.word)("?");
+qdelim = (0, _index.string)("?");
 
-cdelim = (0, _index.word)("&");
+cdelim = (0, _index.string)("&");
 
-equal = (0, _index.word)("=");
+equal = (0, _index.string)("=");
 
-http = (0, _index.word)("http");
+protocol = (0, _index.re)(/^https?/);
 
-https = (0, _index.word)("https");
+sdelim = (0, _index.string)(":");
 
-sdelim = (0, _index.word)(":");
+root = (0, _index.string)("//");
 
-root = (0, _index.word)("//");
-
-scheme = (0, _index.rule)((0, _index.all)((0, _index.any)(https, http), sdelim), function ({
+scheme = (0, _index.rule)((0, _index.all)(protocol, sdelim), function ({
   value: [protocol]
 }) {
   return { protocol };
 });
 
-path = (0, _index.rule)((0, _index.all)(root, (0, _index.list)(separator, symbol)), function ({
+path = (0, _index.rule)((0, _index.all)(root, (0, _index.list)(separator, word)), function ({
   value: [, components]
 }) {
   return {
@@ -51,7 +49,7 @@ path = (0, _index.rule)((0, _index.all)(root, (0, _index.list)(separator, symbol
   };
 });
 
-assignment = (0, _index.rule)((0, _index.all)(symbol, equal, symbol), function ({
+assignment = (0, _index.rule)((0, _index.all)(word, equal, word), function ({
   value: [key,, value]
 }) {
   return [key, value];
@@ -85,11 +83,11 @@ _asyncToGenerator(function* () {
       return _powerAssert2.default.deepEqual(_rec._expr(_rec._capt(expected, "arguments/0"), {
         content: "assert.deepEqual(expected, parseURL(url))",
         filepath: "index.coffee",
-        line: 45
+        line: 44
       }), _rec2._expr(_rec2._capt(parseURL(_rec2._capt(url, "arguments/1/arguments/0")), "arguments/1"), {
         content: "assert.deepEqual(expected, parseURL(url))",
         filepath: "index.coffee",
-        line: 45
+        line: 44
       }));
     });
   };
@@ -101,11 +99,11 @@ _asyncToGenerator(function* () {
       return _powerAssert2.default.equal(_rec3._expr(_rec3._capt(void 0, "arguments/0"), {
         content: "assert.equal(void 0, parseURL(url))",
         filepath: "index.coffee",
-        line: 49
+        line: 48
       }), _rec4._expr(_rec4._capt(parseURL(_rec4._capt(url, "arguments/1/arguments/0")), "arguments/1"), {
         content: "assert.equal(void 0, parseURL(url))",
         filepath: "index.coffee",
-        line: 49
+        line: 48
       }));
     });
   };

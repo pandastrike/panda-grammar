@@ -8,7 +8,7 @@ re = (re) ->
       rest = s[(m.index + value.length)..]
       {value, rest}
 
-word = (s) -> re ///^#{escape s}///
+string = (s) -> re ///^#{escape s}///
 
 ws = re /^(\s*)/
 
@@ -70,4 +70,4 @@ grammar = (r) ->
       if rest == ""
         value
 
-module.exports = {re, word, ws, any, optional, all, many, list, rule, grammar}
+module.exports = {re, string, ws, any, optional, all, many, list, rule, grammar}

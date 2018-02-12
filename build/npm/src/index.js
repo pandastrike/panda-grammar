@@ -1,7 +1,7 @@
 "use strict";
 
 (function () {
-  var all, any, escape, forward, grammar, list, many, match, optional, re, rule, word, ws;
+  var all, any, escape, forward, grammar, list, many, match, optional, re, rule, string, ws;
 
   match = function (re, s) {
     return s.match(re);
@@ -22,7 +22,7 @@
     };
   };
 
-  word = function (s) {
+  string = function (s) {
     return re(RegExp(`^${escape(s)}`));
   };
 
@@ -143,5 +143,5 @@
     };
   };
 
-  module.exports = { re, word, ws, any, optional, all, many, list, rule, grammar };
+  module.exports = { re, string, ws, any, optional, all, many, list, rule, grammar };
 }).call(undefined);
