@@ -1,6 +1,6 @@
 {
   "name": "panda-grammar",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Recursive descent parser combinators in JavaScript",
   "main": "build/npm/src/index.js",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "https://github.com/pandastrike/panda-grammar"
   },
   "scripts": {
-    "test": "gulp npm:test"
+    "test": "p9k npm:test"
   },
   "keywords": [
     "parser",
@@ -23,8 +23,9 @@
   },
   "homepage": "https://github.com/pandastrike/panda-grammar",
   "devDependencies": {
-    "amen": "^2.0.4",
-    "panda-builder": "^1.1.1",
-    "power-assert": "^1.4.4"
+    "@babel/preset-env": "^7.1.0",
+    "amen": "^2.1.0",
+    "panda-9000": "^4.2.0",
+    "panda-builder": "^3.1.0"
   }
 }
