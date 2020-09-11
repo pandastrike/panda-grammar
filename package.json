@@ -3,6 +3,11 @@
   "version": "2.0.0",
   "description": "Recursive descent parser combinators in JavaScript",
   "main": "build/npm/src/index.js",
+  "main:coffee": "src/index.coffee",
+  "files": [
+    "src",
+    "build/npm/src"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/pandastrike/panda-grammar"
