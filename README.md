@@ -1,6 +1,6 @@
 # Panda Grammar
 
-> **Deprecated:** Please use [dashkite/parse](github.com/dashkite/parse) instead.
+> **Deprecated:** Please use [dashkite/parse](https://github.com/dashkite/parse) instead.
 
 Panda Grammar is a parser combinator library for writing recursive descent parsers. What that means is that you write functions that consume input and return a value indicating what was parsed and combine these using other higher order functions. For example, you might have a function that parses a URL scheme. You could then use that function in a function that takes a sequence of such functions to parse entire URLs.
 
