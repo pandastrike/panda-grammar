@@ -2,30 +2,30 @@
   "name": "panda-grammar",
   "version": "2.0.0",
   "description": "Recursive descent parser combinators in JavaScript",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pandastrike/panda-grammar"
-  },
-  "scripts": {
-    "test": "genie test"
-  },
   "keywords": [
     "parser",
     "combinator",
     "recursive",
     "descent"
   ],
-  "author": "Dan Yoder",
-  "license": "MIT",
+  "homepage": "https://github.com/pandastrike/panda-grammar",
   "bugs": {
     "url": "https://github.com/pandastrike/panda-grammar/issues"
   },
-  "homepage": "https://github.com/pandastrike/panda-grammar",
-  "devDependencies": {
-    "@dashkite/genie": "^0.4.1",
-    "@dashkite/genie-presets": "^0.1.12"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pandastrike/panda-grammar"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": "Dan Yoder",
+  "scripts": {
+    "test": "genie test"
   },
   "dependencies": {
     "@dashkite/amen": "^0.1.2"
+  },
+  "devDependencies": {
+    "@dashkite/genie": "^0.4.1",
+    "@dashkite/genie-presets": "^0.1.12"
   }
 }
