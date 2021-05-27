@@ -7,3 +7,4 @@ presets:
   update: null
   release: null
   license: null
+  esm: null
