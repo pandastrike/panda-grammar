@@ -82,7 +82,7 @@ grammar = (r) ->
       if rest == ""
         value
 
-module.exports = {re, string, word, ws, any, optional, forward,
+export {re, string, word, ws, any, optional, forward,
   all, many, list, between,
   rule, tag, merge, join,
   grammar}
