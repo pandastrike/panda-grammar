@@ -1,5 +1,5 @@
-import assert from "assert"
-import {print, test} from "amen"
+import assert from "assert/strict"
+import {print, test} from "@dashkite/amen"
 
 import {re, string, any, optional,
   list, all, many, rule, grammar} from "../src/index"

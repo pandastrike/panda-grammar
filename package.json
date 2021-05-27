@@ -2,18 +2,12 @@
   "name": "panda-grammar",
   "version": "2.0.0",
   "description": "Recursive descent parser combinators in JavaScript",
-  "main": "build/npm/src/index.js",
-  "main:coffee": "src/index.coffee",
-  "files": [
-    "src",
-    "build/npm/src"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/pandastrike/panda-grammar"
   },
   "scripts": {
-    "test": "p9k npm:test"
+    "test": "genie test"
   },
   "keywords": [
     "parser",
@@ -28,8 +22,10 @@
   },
   "homepage": "https://github.com/pandastrike/panda-grammar",
   "devDependencies": {
-    "amen": "^3.0.0",
-    "panda-9000": "^5.0.0",
-    "panda-builder": "^4.0.0"
+    "@dashkite/genie": "^0.4.1",
+    "@dashkite/genie-presets": "^0.1.12"
+  },
+  "dependencies": {
+    "@dashkite/amen": "^0.1.2"
   }
 }

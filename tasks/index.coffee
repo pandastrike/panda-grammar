@@ -1,7 +1,4 @@
-{tools} = require "panda-builder"
-p9k = require "panda-9000"
+import * as t from "@dashkite/genie"
+import preset from "@dashkite/genie-presets"
 
-{target} = tools p9k
-
-target "npm"
-target "web"
+preset t
